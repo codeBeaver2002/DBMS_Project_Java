@@ -1,11 +1,11 @@
+import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 
 
 // block size 280
 // record size 28
 
-import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Main {
 
@@ -17,15 +17,33 @@ public class Main {
 
 
     public static void main(String[] args) {
-        List<Integer> records = new LinkedList<>();
-        List<Integer> indexes = new LinkedList<>(); // Primary index
+        LinkedList<Integer> records = new LinkedList<>();
+        LinkedList<Integer> indexes = new LinkedList<>(); // Primary index
+
         BufferedReader in;
 
-        try{
-            in= new BufferedReader (new InputStreamReader(new FileInputStream("records.txt")));
+        try {
+
+            in= new BufferedReader (new InputStreamReader (new FileInputStream ("records.txt")));
+            if(in.ready()){
+                records.add(Integer.parseInt(in.readLine()));
+                int firstRecord = records.getFirst();
+                indexes.add(firstRecord);
+            }
+            int counter = 1;
+
             while(in.ready()){
                 records.add(Integer.parseInt(in.readLine()));
+                if (counter % 10 == 0){
+                    indexes.add(records.getLast());
+                }
+                counter++;
             }
+
+            records.forEach(System.out::println);
+            indexes.forEach(System.out::println);
+
+            in.close();
 
         }
         catch(IOException e){
